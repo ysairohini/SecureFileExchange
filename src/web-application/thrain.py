@@ -16,7 +16,8 @@ global prime_
 def encrypt(filename,directory,public_key,private_key):
 
 	key = DH.generate_secret(int(private_key), int(public_key))
-	str = key.encode('utf-8').hex()
+	dummy = key.encode("utf-8")
+	str = binascii.hexlify(dummy)
 	key = str[0:32]
 	outputFilename = os.path.join(directory,filename)
 	file_obj = open(outputFilename,"r")
