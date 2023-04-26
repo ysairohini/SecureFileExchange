@@ -25,7 +25,8 @@ def encrypt(filename,directory,public_key,private_key):
 	s = time.time()
 	file_obj = open(outputFilename,'w')
 	file_obj.write(msg1)
-
+	os.remove(filename)
+	os.system("xdg-open " + directory)
 '''
 -----------------------------------------------------------------
 ~~~~~~~~~~~~~~~~~~~~~~DECRYPTION SNIPPET~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,11 +37,12 @@ def decrypt(filename,directory,public_key,private_key):
 	key = DH.generate_secret(int(private_key), int(public_key))
 	str = key.encode().hex()
 	key = str[0:32]
-	file_obj = open(directory + filename,"r")
+	outputFilename1 = os.path.join(directory,filename)
+	file_obj = open(outputFilename1,"r")
 	msg = file_obj.read()
 	text = ENCDEC.AESCipher(key).decrypt(msg)
 	outputFilename = os.path.join(directory,"DecodedFile.txt")
-	file_obj = open(outputFilename,"w");
+	file_obj = open(outputFilename1,"w");
 	file_obj.write(text)
 	os.remove(filename)
 	os.system("xdg-open " + directory)
