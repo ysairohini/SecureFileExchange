@@ -50,6 +50,6 @@ class AESCipher(object):
 
     def decrypt(self, enc):
         enc = base64.b64decode(enc)
-        cipher = AES.new(self.key.encode('utf-8'), AES.MODE_CBC, iv().encode())
+        cipher = AES.new(self.key, AES.MODE_CBC, enc[:AES.block_size])
         dec = cipher.decrypt(enc)
         return unpad(dec).decode('utf-8')
