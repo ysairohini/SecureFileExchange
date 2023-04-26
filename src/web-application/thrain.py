@@ -35,7 +35,8 @@ def encrypt(filename,directory,public_key,private_key):
 def decrypt(filename,directory,public_key,private_key):
 	
 	key = DH.generate_secret(int(private_key), int(public_key))
-	str = key.encode().hex()
+	dummy = key.encode("utf-8")
+	str = binascii.hexlify(dummy)
 	key = str[0:32]
 	outputFilename1 = os.path.join(directory,filename)
 	file_obj = open(outputFilename1,"r")
