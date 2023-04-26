@@ -7,7 +7,7 @@ import DH
 import codecs
 global key
 global prime_
-
+import binascii
 '''
 -----------------------------------------------------------------
 ~~~~~~~~~~~~~~~~~~~~~~ENCRYPTION SNIPPET~~~~~~~~~~~~~~~~~~~~~~~~~
