@@ -7,15 +7,11 @@ import pickle
 import random
 import webbrowser
 import thrain
-<<<<<<< HEAD
+
 UPLOAD_FOLDER = 'C:/Users/sxr200143/Documents/GitHub/FileTransfer/src/web-application/media/text-files/'
 UPLOAD_KEY = 'C:/Users/sxr200143/Documents/GitHub/FileTransfer/src/web-application/media/public-keys/'
-=======
 
 
-UPLOAD_FOLDER = './media/text-files/'
-UPLOAD_KEY = './media/public-keys/'
->>>>>>> 6ff5e77bc3e133c68588fe566571f36a5d95ffa3
 ALLOWED_EXTENSIONS = set(['txt'])
 
 app = Flask(__name__)
@@ -111,7 +107,6 @@ def download_f():
 def upload_file():
 	if request.method == 'POST':
 		# check if the post request has the file part
-<<<<<<< HEAD
 		if 'file' not in request.files:
 			flash('No file part')
 			return redirect(request.url)
@@ -129,20 +124,7 @@ def upload_file():
 			#file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
 			return post_upload_redirect()
 		return 'Invalid File Format !'
-=======
-		filename = request.files['filename']
-		public_key = request.form['publicKey']
-		private_key = request.form['PrivateKey']
-		#filename = request.form['filename']
-		thrain.encrypt(filename,app.config['UPLOAD_FOLDER'],public_key,private_key)
-		return 'Successfull'
->>>>>>> 6ff5e77bc3e133c68588fe566571f36a5d95ffa3
 
-'''
------------------------------------------------------------
-REGISTER UNIQUE USERNAME AND GENERATE PUBLIC KEY WITH FILE
------------------------------------------------------------
-'''
 @app.route('/register-new-user', methods = ['GET', 'POST'])
 def register_user():
 	files = []
@@ -189,7 +171,6 @@ def register_user():
 
 @app.route('/decryptFile', methods = ['GET', 'POST'])
 def decryptor():
-<<<<<<< HEAD
 	if request.method == 'POST':
 		# check if the post request has the file part
 		if 'file' not in request.files:
@@ -213,15 +194,3 @@ def decryptor():
 if __name__ == '__main__':
 	#app.run(host="0.0.0.0", port=80)
 	app.run()
-=======
-	public_key = request.form['publicKey']
-	private_key = request.form['PrivateKey']
-	#directory = request.form['directory']
-	filename = request.files['filename']
-	thrain.decrypt(filename,app.config['UPLOAD_FOLDER'],public_key,private_key)
-	return render_template('decrypt-file.html')
-
-if __name__ == '__main__':
-	app.run(host="0.0.0.0", port=80)
-	#app.run()
->>>>>>> 6ff5e77bc3e133c68588fe566571f36a5d95ffa3
