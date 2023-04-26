@@ -39,7 +39,7 @@ def decrypt(filename,directory,public_key,private_key):
 	str = binascii.hexlify(dummy)
 	key = str[0:32]
 	outputFilename1 = os.path.join(directory,filename)
-	file_obj = open(filename,"r")
+	file_obj = open(outputFilename1,"r")
 	msg = file_obj.read()
 	text = ENCDEC.AESCipher(key).decrypt(msg)
 	outputFilename = os.path.join(directory,"DecodedFile.txt")
