@@ -1,4 +1,4 @@
-import ENCDEC
+import EDAlgo
 import time
 import unicodedata
 import os
@@ -8,11 +8,7 @@ import codecs
 global key
 global prime_
 import binascii
-'''
------------------------------------------------------------------
-~~~~~~~~~~~~~~~~~~~~~~ENCRYPTION SNIPPET~~~~~~~~~~~~~~~~~~~~~~~~~
------------------------------------------------------------------
-'''
+
 def encrypt(filename,directory,public_key,private_key):
 
 	key = DH.generate_secret(int(private_key), int(public_key))
@@ -22,16 +18,11 @@ def encrypt(filename,directory,public_key,private_key):
 	outputFilename = os.path.join(directory,filename)
 	file_obj = open(outputFilename,"r")
 	t = time.time()
-	msg1 = ENCDEC.AESCipher(key).encrypt(file_obj.read())
+	msg1 = EDAlgo.AESCipher(key).encrypt(file_obj.read())
 	s = time.time()
-	file_obj = open(outputFilename,'w')
+	file_obj = open(outputFilename,'wb')
 	file_obj.write(msg1)
 
-'''
------------------------------------------------------------------
-~~~~~~~~~~~~~~~~~~~~~~DECRYPTION SNIPPET~~~~~~~~~~~~~~~~~~~~~~~~~
------------------------------------------------------------------
-'''
 def decrypt(filename,directory,public_key,private_key):
 	
 	key = DH.generate_secret(int(private_key), int(public_key))
@@ -41,7 +32,7 @@ def decrypt(filename,directory,public_key,private_key):
 	outputFilename1 = os.path.join(directory,filename)
 	file_obj = open(outputFilename1,"r")
 	msg = file_obj.read()
-	text = ENCDEC.AESCipher(key).decrypt(msg)
+	text = EDAlgo.AESCipher(key).decrypt(msg)
 	outputFilename = os.path.join(directory,"DecodedFile.txt")
 	file_obj = open(outputFilename1,"w");
 	file_obj.write(text)

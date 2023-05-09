@@ -5,11 +5,10 @@ from werkzeug.utils import secure_filename
 import DH
 import pickle
 import random
-import webbrowser
-import thrain
+import File
 
-UPLOAD_FOLDER = './media/text-files/'
-UPLOAD_KEY = './media/public-keys/'
+UPLOAD_FOLDER = 'C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/text-files/'
+UPLOAD_KEY = 'C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/public-keys/'
 
 
 ALLOWED_EXTENSIONS = set(['txt'])
@@ -21,11 +20,6 @@ def allowed_file(filename):
 	return '.' in filename and \
 		filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-'''
------------------------------------------------------------
-					PAGE REDIRECTS
------------------------------------------------------------
-'''
 def post_upload_redirect():
 	return render_template('post-upload.html')
 
@@ -55,7 +49,7 @@ def decrypt_file():
 '''
 @app.route('/public-key-directory/retrieve/key/<username>')
 def download_public_key(username):
-	for root,dirs,files in os.walk('./media/public-keys/'):
+	for root,dirs,files in os.walk('C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/public-keys/'):
 		for file in files:
 			list = file.split('-')
 			if list[0] == username:
@@ -79,8 +73,8 @@ def download_file(filename):
 @app.route('/public-key-directory/')
 def downloads_pk():
 	username = []
-	if(os.path.isfile("./media/database/database_1.pickle")):
-		pickleObj = open("./media/database/database_1.pickle","rb")
+	if(os.path.isfile("C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/database/database_1.pickle")):
+		pickleObj = open("C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/database/database_1.pickle","rb")
 		username = pickle.load(pickleObj)
 		pickleObj.close()
 	if len(username) == 0:
@@ -96,12 +90,6 @@ def download_f():
 			return render_template('file-list.html',msg='Aww snap! No file found in directory')
 		else:
 			return render_template('file-list.html',msg='',itr=0,length=len(files),list=files)
-
-'''
------------------------------------------------------------
-				UPLOAD ENCRYPTED FILE
------------------------------------------------------------
-'''
 
 @app.route('/data', methods=['GET', 'POST'])
 def upload_file():
@@ -121,7 +109,7 @@ def upload_file():
 		if file:
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-			thrain.encrypt(file.filename,app.config['UPLOAD_FOLDER'],public,private)
+			File.encrypt(file.filename,app.config['UPLOAD_FOLDER'],public,private)
 			#file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
 			return post_upload_redirect()
 		return 'Invalid File Format !'
@@ -132,12 +120,12 @@ def register_user():
 	privatekeylist = []
 	usernamelist = []
 	# Import pickle file to maintain uniqueness of the keys
-	if(os.path.isfile("./media/database/database.pickle")):
-		pickleObj = open("./media/database/database.pickle","rb")
+	if(os.path.isfile("C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/database/database.pickle")):
+		pickleObj = open("C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/database/database.pickle","rb")
 		privatekeylist = pickle.load(pickleObj)
 		pickleObj.close()
-	if(os.path.isfile("./media/database/database_1.pickle")):
-		pickleObj = open("./media/database/database_1.pickle","rb")
+	if(os.path.isfile("C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/database/database_1.pickle")):
+		pickleObj = open("C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/database/database_1.pickle","rb")
 		usernamelist = pickle.load(pickleObj)
 		pickleObj.close()
 	# Declare a new list which consists all usernames 
@@ -155,10 +143,10 @@ def register_user():
 	privatekeylist.append(str(privatekey))
 	usernamelist.append(username)
 	#Save/update pickle
-	pickleObj = open("./media/database/database.pickle","wb")
+	pickleObj = open("C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/database/database.pickle","wb")
 	pickle.dump(privatekeylist,pickleObj)
 	pickleObj.close()
-	pickleObj = open("./media/database/database_1.pickle","wb")
+	pickleObj = open("C:/Users/sxr200143/Downloads/SecureFileExchange-main/SecureFileExchange-main/src/web-application/media/database/database_1.pickle","wb")
 	pickle.dump(usernamelist,pickleObj)
 	pickleObj.close()
 	#Updating a new public key for a new user
@@ -187,7 +175,7 @@ def decryptor():
 			return 'NO FILE SELECTED'
 		if file:
 			filename = secure_filename(file.filename)
-			thrain.decrypt(file.filename,app.config['UPLOAD_FOLDER'],public,private)
+			File.decrypt(file.filename,app.config['UPLOAD_FOLDER'],public,private)
 			#file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
 			return post_upload_redirect()
 		return 'Invalid File Format !'
