@@ -8,35 +8,6 @@ from Cryptodome.Cipher import AES
 from secretsharing import PlaintextToHexSecretSharer
 from secretsharing import SecretSharer
 
-# BS = 16
-# pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS).encode()
-# unpad = lambda s: s[:-ord(s[len(s)-1:])]
-BS = 16
-pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
-unpad = lambda s : s[:-ord(s[len(s)-1:])]
-
-def iv():
-    return chr(0) * 16
-
-# class AESCipher(object):
-#     global iv
-#     def __init__(self, key):
-#         self.key = key
-#         print(key)
-
-#     def encrypt(self, message):
-#         message = message.encode()
-#         raw = pad(message)
-#         cipherE = AES.new(self.key, AES.MODE_CFB)
-#         enc = cipherE.encrypt(raw)
-#         return base64.b64encode(enc).decode()
-
-#     def decrypt(self, enc):
-#         cipher = AES.new(self.key, AES.MODE_CFB)
-#         dec = cipher.decrypt(enc)
-#         print(dec)
-#         return unpad(dec).decode()
-
 class AESCipher(object):
     
     global iv
